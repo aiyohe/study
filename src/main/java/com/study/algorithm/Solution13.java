@@ -29,7 +29,7 @@ public class Solution13 {
      */
 
     //1.0
-    public int romanToInt(String s) {
+    /*public int romanToInt(String s) {
         Map<Character,Integer> map=new HashMap<>();
         {
             map.put('I',1);
@@ -58,6 +58,39 @@ public class Solution13 {
             before=now;
         }
         return number;
+    }*/
+    //2.0 map 换成Switch  某些条件下，Switch的消耗逼map的消耗小
+    public int romanToInt(String s) {
+        Integer number=0;
+        if(s==null||"".equals(s)){
+            return number;
+        }
+        int before=0;//前一位数据
+
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            int now=getValue(c);
+            //如果前一位小于当前位，说明需要减
+            if(before!=0&&now>before){
+                number=number+now-2*before;
+            }else{
+                number+=now;
+            }
+            before=now;
+        }
+        return number;
+    }
+    private int getValue(char ch) {
+        switch(ch) {
+            case 'I': return 1;
+            case 'V': return 5;
+            case 'X': return 10;
+            case 'L': return 50;
+            case 'C': return 100;
+            case 'D': return 500;
+            case 'M': return 1000;
+            default: return 0;
+        }
     }
     @Test
     public void test(){
